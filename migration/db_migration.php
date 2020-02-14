@@ -1,6 +1,9 @@
 <?php
 
-	$db_con = mysqli_connect('localhost', 'root', 'brogamer980', 'flip_test');
+	require_once('config/database.php');
+
+	$db = new Database();
+	$db_con = $db->db_connect();
 
 	$dsb = "CREATE TABLE disbursements (
 				id INT PRIMARY KEY AUTO_INCREMENT,
@@ -12,7 +15,7 @@
 				beneficiary_name VARCHAR(30) NOT NULL,
 				remark TEXT,
 				receipt TEXT,
-				time_served TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				time_served TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 				fee DECIMAL(12,0)
 			)";
 
