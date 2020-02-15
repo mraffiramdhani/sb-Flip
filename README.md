@@ -1,4 +1,4 @@
-<center><h1>sb-Flip</h1></center>
+# sb-Flip
 
 sb-Flip is a service to help e-commerce seller disburse their credit into money via designated bank. The service provide APIs to store disbursements, and check the status of each disbursement.
 
@@ -6,7 +6,7 @@ sb-Flip is a service to help e-commerce seller disburse their credit into money 
 [![PHP](https://img.shields.io/badge/PHP-7.3.x-purple.svg?style=rounded-square)](https://www.php.net/)
 
 ## Requirement
-* PHP Server (e.g XAMPP)
+* Web Server (e.g XAMPP)
 * [Postmant](https://www.getpostman.com/) or [Insomnia](https://insomnia.rest/) (API Tester, Optional)
 
 ## Setup
@@ -17,7 +17,7 @@ sb-Flip is a service to help e-commerce seller disburse their credit into money 
 5. Type `php config\migrate.php` to run database migration
 
 ## Database Setup
-Open `config.php` file inside config to seup your database.
+Open `config.php` file inside config to setup your database.
 ```
 public $DB_HOST = "localhost"; 
 public $DB_USER = "root";
