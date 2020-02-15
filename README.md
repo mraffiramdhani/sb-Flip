@@ -27,9 +27,7 @@ public $DB_NAME = "flip_test";
 
 ## End Point
 1. Create Disbursement
-	* cURL
-	<br/>
-	Open Command Prompt or Terminal and Type :
+	* cURL, Open Command Prompt or Terminal and Type :
 	```
 	curl -i -X POST -d "{\"bank_code\":\"bni\",\"account_number\":9872837982,\"amount\":40000,\"remark\":\"Sample Remark\"}" http://localhost/sb-flip/service/disbursement/create.php
 	```
@@ -53,9 +51,7 @@ public $DB_NAME = "flip_test";
 	```
 
 2. Check Disbursement Status
-	* cURL
-	<br/>
-	Open Command Prompt or Terminal and Type :
+	* cURL, Open Command Prompt or Terminal and Type :
 	```
 	curl -i -X GET http://localhost/sb-flip/service/disbursement/check.php?id=998738298
 	```
