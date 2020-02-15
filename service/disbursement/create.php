@@ -19,6 +19,20 @@
 	$data = json_decode(file_get_contents("php://input"));
 
 	if(
+		!is_string($data->bank_code) ||
+		!is_numeric($data->account_number) ||
+		!(is_int($data->amount) || is_float($data->amount)) ||
+		!is_string($data->remark)
+	){
+		http_response_code(400);
+
+		$response = $helper->response("failed", "Please provide valid data format", $data);
+
+		echo json_encode($response);
+		exit;
+	}
+
+	if(
 		!empty($data->bank_code) &&
 		!empty($data->account_number) &&
 		!empty($data->amount) &&
