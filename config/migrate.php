@@ -1,4 +1,8 @@
 <?php
+
+	/**
+	 * This is the migration file to create table into the designated database
+	 */
 	
 	include_once 'database.php';
 

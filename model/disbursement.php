@@ -1,9 +1,11 @@
 <?php
 
 	class Disbursement {
-		private $db_con;
+		private $conn;
+		private $table = 'disbursements';
 
 		public $id;
+		public $transaction_id;
 		public $amount;
 		public $status;
 		public $bank_code;
@@ -15,42 +17,76 @@
 		public $fee;
 
 		public function __construct($db) {
-			$this->db_con = $db;
+			$this->conn = $db;
 		}
 
+		/**
+		 * Read disbursement data from database
+		 * 
+		 * @return object Result from the query
+		 */
+		
 		public function read() {
-			$sql = 'SELECT * FROM disbursements WHERE id = ' . $this->id;
+			$sql = 'SELECT * FROM ' . $this->table . ' WHERE transaction_id = ' . $this->transaction_id;
 
 			$result = $this->conn->query($sql);
 			return $result;
 		}
 
+		/**
+		 * Insert new disbursement data to database
+		 * 
+		 * @return object Result from the query
+		 */
+		
 		public function create() {
-			$sql = 'INSERT INTO disbursements (amount, status, bank_code, account_number, beneficiary_name, remark, receipt, fee) VALUES (';
-			$sql .= $this->amount . ', ';
-			$sql .= $this->status . ', ';
-			$sql .= $this->bank_code . ', ';
-			$sql .= $this->account_number . ', ';
-			$sql .= $this->beneficiary_name . ', ';
-			$sql .= $this->remark . ', ';
-			$sql .= $this->receipt . ', ';
-			$sql .= $this->fee . ')';
+			$sql = 'INSERT INTO ' . $this->table . ' (transaction_id, amount, status, bank_code, account_number, beneficiary_name, remark, receipt, fee) VALUES (?,?,?,?,?,?,?,?,?)';
 
-			$result = $this->conn->query($sql);
+			$stmt = $this->conn->prepare($sql);
+			$stmt->bind_param(
+				'iississsi',
+				$this->transaction_id,
+				$this->amount,
+				$this->status,
+				$this->bank_code,
+				$this->account_number,
+				$this->beneficiary_name,
+				$this->remark,
+				$this->receipt,
+				$this->fee
+			);
 
-			$last_insert_id = (int)$this->conn->insert_id;
-			$latest_dsb = $this->read($last_insert_id);
+			$stmt->execute();
+			$stmt->close();
+
+			$latest_dsb = $this->read();
 			$this->conn->close();
 
 			return $latest_dsb;
 		}
 
+		/**
+		 *	Update disbursement data
+		 * 
+		 * @return object Result from the query
+		 */
+		
 		public function update() {
-			$sql = 'UPDATE disbursements SET status = ' . $this->status . ', receipt = ' . $this->receipt . ' WHERE id = ' . $this->id;
+			$sql = 'UPDATE ' . $this->table . ' SET status = ?, receipt = ?, time_served = ? WHERE transaction_id = ?';
 
-			$result = $this->conn->query($sql);
+			$stmt = $this->conn->prepare($sql);
+			$stmt->bind_param(
+				'sssi',
+				$this->status,
+				$this->receipt,
+				$this->time_served,
+				$this->transaction_id
+			);
 
-			$updated_dsb = $this->read($this->id);
+			$stmt->execute();
+			$stmt->close();
+
+			$updated_dsb = $this->read();
 			$this->conn->close();
 
 			return $updated_dsb;

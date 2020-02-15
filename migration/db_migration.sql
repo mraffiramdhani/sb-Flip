@@ -1,5 +1,6 @@
 CREATE TABLE disbursements (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    transaction_id BIGINT,
     amount DECIMAL(12,0) NOT NULL,
     status VARCHAR(10) NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
